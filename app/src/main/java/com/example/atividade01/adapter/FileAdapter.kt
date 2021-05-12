@@ -32,7 +32,7 @@ class FileAdapter(private val fileList: List<File>, private val listener: OnItem
         val fileName: TextView? = fileView.file_name
 
         init {
-            itemView.setOnClickListener(this)
+            itemView.delete_btn.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {

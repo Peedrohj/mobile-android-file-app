@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/file_name_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -21,7 +21,7 @@
         app:layout_constraintVertical_bias="0.058" />
 
     <EditText
-        android:id="@+id/editTextTextPersonName2"
+        android:id="@+id/file_content_input"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -31,7 +31,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.119"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName"
+        app:layout_constraintTop_toBottomOf="@+id/file_name_input"
         app:layout_constraintVertical_bias="0.029" />
 
     <Button
@@ -42,12 +42,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.724"
-        app:layout_constraintStart_toEndOf="@+id/editTextTextPersonName"
+        app:layout_constraintStart_toEndOf="@+id/file_name_input"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.058" />
 
     <RadioGroup
-        android:id="@+id/radioGroup"
+        android:id="@+id/btn_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
@@ -56,19 +56,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.1"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2"
+        app:layout_constraintTop_toBottomOf="@+id/file_content_input"
         app:layout_constraintVertical_bias="0.052">
 
         <RadioButton
-            android:id="@+id/radioButton"
+            android:id="@+id/internal_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/internal"
             tools:layout_editor_absoluteX="108dp"
-            tools:layout_editor_absoluteY="155dp" />
+            tools:layout_editor_absoluteY="155dp"
+            android:checked="true" />
 
         <RadioButton
-            android:id="@+id/radioButton2"
+            android:id="@+id/external_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/external" />
@@ -84,7 +85,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/btn_group"
         app:layout_constraintVertical_bias="0.058"
         tools:listitem="@layout/file_item" />
 

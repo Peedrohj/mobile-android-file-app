@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">atividade01</string>
+    <string name="internal">Internal</string>
+    <string name="external">External</string>
+    <string name="create">CREATE</string>
+    <string name="file_name">File name</string>
+    <string name="file_content">Type the file content</string>
+</resources>

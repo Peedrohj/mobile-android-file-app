@@ -6,12 +6,11 @@ import android.view.ViewGroup
 
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.atividade01.MainActivity
 import com.example.atividade01.R
-import com.example.atividade01.data.File
+import com.example.atividade01.data.FileData
 import kotlinx.android.synthetic.main.file_item.view.*
 
-class FileAdapter(private val fileList: List<File>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FileAdapter.FileHolder>(){
+class FileAdapter(private val fileDataList: List<FileData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FileAdapter.FileHolder>(){
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileHolder {
         val fileView = LayoutInflater.from(parent.context).inflate(R.layout.file_item, parent, false)
 
@@ -19,13 +18,13 @@ class FileAdapter(private val fileList: List<File>, private val listener: OnItem
     }
 
     override fun onBindViewHolder(holder: FileHolder, position: Int) {
-        val currentItem = fileList[position]
+        val currentItem = fileDataList[position]
 
         holder.fileName!!.text = currentItem.name
     }
 
     override fun getItemCount(): Int {
-        return fileList.size
+        return fileDataList.size
     }
 
     inner class FileHolder(fileView: View): RecyclerView.ViewHolder(fileView), View.OnClickListener {

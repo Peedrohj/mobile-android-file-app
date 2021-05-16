@@ -4,7 +4,7 @@ import android.os.Parcelable
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-data class File(
+data class FileData(
         val name: String,
         val isInternal: Boolean
 ): Parcelable

@@ -89,4 +89,15 @@
         app:layout_constraintVertical_bias="0.058"
         tools:listitem="@layout/file_item" />
 
+    <CheckBox
+        android:id="@+id/useJetpack"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/jetpack_security"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.82"
+        app:layout_constraintStart_toEndOf="@+id/btn_group"
+        app:layout_constraintTop_toBottomOf="@+id/file_content_input" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

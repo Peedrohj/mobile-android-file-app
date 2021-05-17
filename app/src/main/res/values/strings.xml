@@ -5,4 +5,5 @@
     <string name="create">CREATE</string>
     <string name="file_name">File name</string>
     <string name="file_content">Type the file content</string>
+    <string name="jetpack_security">Jetpack security</string>
 </resources>

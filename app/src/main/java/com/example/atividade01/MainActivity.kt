@@ -19,6 +19,11 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
     private var baseList = ArrayList<FileData>()
     private var adapter = FileAdapter(baseList, this)
 
+    companion object {
+        const val DETAILS_REQUEST_CODE = 1
+        const val DETAILS_FILE = "File"
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -198,9 +203,11 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(position: Int) {
-        Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
-        val intent = Intent(this@MainActivity, FileDetails::class.java)
+        val file: FileData = baseList[position]
 
-        startActivityForResult(intent, 1)
+        val intent = Intent(this@MainActivity, FileDetails::class.java)
+        intent.putExtra(DETAILS_FILE, file)
+
+        startActivityForResult(intent, DETAILS_REQUEST_CODE)
     }
 }

@@ -1,6 +1,7 @@
 package com.example.atividade01
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -58,7 +59,13 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
             }
         } else {
             this.getExternalFilesDir(null)?.listFiles()?.forEach { file ->
-                baseList.add(FileData(name = file.toString().replace(this.getExternalFilesDir(null).toString() + "/", ""), isInternal = false))
+                baseList.add(
+                    FileData(
+                        name = file.toString()
+                            .replace(this.getExternalFilesDir(null).toString() + "/", ""),
+                        isInternal = false
+                    )
+                )
             }
         }
 
@@ -71,6 +78,9 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
 
         val fileName = file_name_input.text.toString()
         val fileContents = file_content_input.text.toString()
+
+        file_name_input.text.clear()
+        file_content_input.text.clear()
 
         // Check if the fileName isn't null
         if (fileName.isEmpty()) {
@@ -109,6 +119,8 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
                 createEncryptedFile(file, fileContents)
             }
         }
+
+        this.filterData(view)
     }
 
     private fun createEncryptedFile(file: File, content: String) {
@@ -171,11 +183,24 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
 
 
     override fun onDeleteButtonClick(position: Int) {
-        Toast.makeText(this, "Delete $position clicked", Toast.LENGTH_SHORT).show()
+        val isInternal = isInternalSelected()
+        val file: FileData = baseList[position]
 
+        if (isInternal) {
+            this.deleteFile(file.name)
+        } else {
+            val externalFile = File(this.getExternalFilesDir(null), file.name)
+            externalFile.delete()
+        }
+
+        baseList.remove(file)
+        adapter.notifyDataSetChanged()
     }
 
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
+        val intent = Intent(this@MainActivity, FileDetails::class.java)
+
+        startActivityForResult(intent, 1)
     }
 }

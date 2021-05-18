@@ -10,9 +10,13 @@ import com.example.atividade01.R
 import com.example.atividade01.data.FileData
 import kotlinx.android.synthetic.main.file_item.view.*
 
-class FileAdapter(private val fileDataList: List<FileData>, private val listener: OnItemClickListener) : RecyclerView.Adapter<FileAdapter.FileHolder>(){
+class FileAdapter(
+    private val fileDataList: List<FileData>,
+    private val listener: OnItemClickListener
+) : RecyclerView.Adapter<FileAdapter.FileHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FileHolder {
-        val fileView = LayoutInflater.from(parent.context).inflate(R.layout.file_item, parent, false)
+        val fileView =
+            LayoutInflater.from(parent.context).inflate(R.layout.file_item, parent, false)
 
         return FileHolder(fileView)
     }
@@ -27,23 +31,32 @@ class FileAdapter(private val fileDataList: List<FileData>, private val listener
         return fileDataList.size
     }
 
-    inner class FileHolder(fileView: View): RecyclerView.ViewHolder(fileView), View.OnClickListener {
+    inner class FileHolder(fileView: View) : RecyclerView.ViewHolder(fileView),
+        View.OnClickListener {
         val fileName: TextView? = fileView.file_name
 
         init {
             itemView.delete_btn.setOnClickListener(this)
+            itemView.setOnClickListener(this)
         }
 
         override fun onClick(v: View?) {
             val position: Int = adapterPosition
-            if(position != RecyclerView.NO_POSITION){
-                listener.onItemClick(position)
+            var isDelete = v?.id  == R.id.delete_btn
 
+            if (position != RecyclerView.NO_POSITION) {
+
+                if (isDelete) {
+                    listener.onDeleteButtonClick(position)
+                }else{
+                    listener.onItemClick(position)
+                }
             }
         }
     }
 
-    interface OnItemClickListener{
+    interface OnItemClickListener {
+        fun onDeleteButtonClick(position: Int)
         fun onItemClick(position: Int)
     }
 }

@@ -44,7 +44,8 @@
         app:layout_constraintHorizontal_bias="0.724"
         app:layout_constraintStart_toEndOf="@+id/file_name_input"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.058" />
+        app:layout_constraintVertical_bias="0.058"
+        android:onClick="createFile"/>
 
     <RadioGroup
         android:id="@+id/btn_group"
@@ -66,13 +67,15 @@
             android:text="@string/internal"
             tools:layout_editor_absoluteX="108dp"
             tools:layout_editor_absoluteY="155dp"
-            android:checked="true" />
+            android:checked="true"
+            android:onClick="filterData"/>
 
         <RadioButton
             android:id="@+id/external_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/external" />
+            android:text="@string/external"
+            android:onClick="filterData"/>
     </RadioGroup>
 
     <androidx.recyclerview.widget.RecyclerView

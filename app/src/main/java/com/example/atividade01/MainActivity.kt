@@ -2,6 +2,7 @@ package com.example.atividade01
 
 import android.content.Context
 import android.os.Bundle
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -14,7 +15,7 @@ import java.io.File
 import java.io.FileOutputStream
 
 open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
-    private var baseList: ArrayList<FileData> = generateBaseList(0)
+    private var baseList = ArrayList<FileData>()
     private var adapter = FileAdapter(baseList, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,72 +26,89 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
         file_list.layoutManager = LinearLayoutManager(this)
         file_list.setHasFixedSize(true)
 
-
-        create_btn.setOnClickListener {
-            val checkedbtn = btn_group.checkedRadioButtonId
-            var isInternal = true
-
-            if (checkedbtn == external_btn.id) {
-                isInternal = false
-            }
-
-            val fileName = file_name_input.text.toString()
-            val fileContents = file_content_input.text.toString()
-
-            // Check if the fileName isn't null
-            if (fileName.isEmpty()) {
-                Toast.makeText(this, "Provide at least the file name", Toast.LENGTH_SHORT).show()
-            } else {
-
-                // Check if will create an internal or external file
-                if (isInternal) {
-
-                    // Check if will use jetpack or not
-                    if (!useJetpack.isChecked) {
-                        this.createInternalFile(fileName, fileContents)
-                    } else {
-                        val file = File(filesDir, fileName)
-
-                        if (file.exists()) {
-                            file.delete()
-                        }
-
-                        createEncryptedFile(file, fileContents)
-                    }
-
-                } else {
-
-                    // Check if will use jetpack or not
-                    if (!useJetpack.isChecked) {
-                        this.createExternalFile(fileName, fileContents)
-                    } else {
-                        val file = File(getExternalFilesDir(null), fileName)
-
-                        if (file.exists()) {
-                            file.delete()
-                        }
-
-                        createEncryptedFile(file, fileContents)
-                    }
-                }
-            }
-        }
-
+        baseList.addAll(getBaseList())
+        adapter.notifyDataSetChanged()
     }
 
-
-    private fun generateBaseList(size: Int): ArrayList<FileData> {
+    private fun getBaseList(): ArrayList<FileData> {
+        var isInternal = isInternalSelected()
         val list = ArrayList<FileData>()
 
-        for (i in 0 until size) {
-            val item = FileData(
-                name = "File: $i", isInternal = false
-            )
-
-            list += item
+        if (isInternal) {
+            this.fileList().forEach { file ->
+                list.add(FileData(name = file, isInternal = true))
+            }
+        } else {
+            this.getExternalFilesDir(null)?.listFiles()?.forEach { file ->
+                list.add(FileData(name = file.toString(), isInternal = false))
+            }
         }
 
         return list
+    }
+
+    fun filterData(view: View) {
+        var isInternal = isInternalSelected()
+
+        baseList.clear()
+
+        if (isInternal) {
+            this.fileList().forEach { file ->
+                baseList.add(FileData(name = file, isInternal = true))
+            }
+        } else {
+            this.getExternalFilesDir(null)?.listFiles()?.forEach { file ->
+                baseList.add(FileData(name = file.toString().replace(this.getExternalFilesDir(null).toString() + "/", ""), isInternal = false))
+            }
+        }
+
+        adapter.notifyDataSetChanged()
+    }
+
+    fun createFile(view: View) {
+        var isInternal = isInternalSelected()
+
+
+        val fileName = file_name_input.text.toString()
+        val fileContents = file_content_input.text.toString()
+
+        // Check if the fileName isn't null
+        if (fileName.isEmpty()) {
+            Toast.makeText(this, "Provide at least the file name", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        // Check if will create an internal or external file
+        if (isInternal) {
+
+            // Check if will use jetpack or not
+            if (!useJetpack.isChecked) {
+                this.createInternalFile(fileName, fileContents)
+            } else {
+                val file = File(filesDir, fileName)
+
+                if (file.exists()) {
+                    file.delete()
+                }
+
+                createEncryptedFile(file, fileContents)
+            }
+
+        } else {
+
+            // Check if will use jetpack or not
+            if (!useJetpack.isChecked) {
+                this.createExternalFile(fileName, fileContents)
+            } else {
+                val file = File(getExternalFilesDir(null), fileName)
+
+                if (file.exists()) {
+                    file.delete()
+                }
+
+                createEncryptedFile(file, fileContents)
+            }
+        }
     }
 
     private fun createEncryptedFile(file: File, content: String) {
@@ -141,8 +159,23 @@ open class MainActivity : AppCompatActivity(), FileAdapter.OnItemClickListener {
         }
     }
 
+    private fun isInternalSelected(): Boolean {
+        val checkedbtn = btn_group.checkedRadioButtonId
+
+        if (checkedbtn == external_btn.id) {
+            return false
+        }
+
+        return true
+    }
+
+
+    override fun onDeleteButtonClick(position: Int) {
+        Toast.makeText(this, "Delete $position clicked", Toast.LENGTH_SHORT).show()
+
+    }
+
     override fun onItemClick(position: Int) {
         Toast.makeText(this, "Item $position clicked", Toast.LENGTH_SHORT).show()
-
     }
 }
